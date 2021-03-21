@@ -1,0 +1,548 @@
+<!DOCTYPE>
+ <html>
+  <head>
+    <!-- Expand the number of characters we can use in the document beyond basic ASCII 🎉 -->
+    <meta charset="utf-8">
+
+    <!-- Connect Font Awesome CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Connect Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <!-- Connect Bootstrap JavaScript and its dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Make it responsive to small screens -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&family=Raleway&display=swap" rel="stylesheet"> -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
+
+    <link href="/assets/mycustomstyles.css" rel="stylesheet">
+    <title>Cameron Lowry</title>
+
+    <style>
+
+
+      :root {
+        --highlight: #086e7c;
+        --body-pad-top: 70px;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        /*background: black;
+        color:white; */
+        font-family: font-family: 'Open Sans Condensed', sans-serif;
+        text-align: justify;
+        display: grid;
+        margin: 0;
+        padding:  var(--body-pad-top) 45px;
+        min-width: 350px;
+        grid: auto / 200px minmax(30px, 900px);
+        align-items: start;
+        justify-content: center;
+        gap: 20px;
+        font: 16px/1.3 'PT Sans', sans-serif;
+        color: #333;
+        background: #edf2f4;
+      }
+
+      nav {
+        position: sticky;
+        left: 0;
+        top: var(--body-pad-top);
+        line-height: 2;
+      }
+
+      article {
+        margin-top: -50px;
+        padding-top: 50px;
+        font-family: font-family: 'Open Sans Condensed', sans-serif;
+      }
+
+      /* === Navbar and marker === */
+
+      nav ul {
+        margin: 0;
+        padding-left: 10px;
+        list-style: none;
+      }
+
+      nav li > ul {
+        padding-left: 30px;
+      }
+
+      nav a {
+        display: inline-block;
+        color: #7f7f7f;
+        text-decoration: none;
+        transition: all 300ms ease-in-out;
+      }
+
+      nav li.visible > a {
+        color: #222;
+        transform: translate(5px);
+      }
+
+      nav svg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+
+      nav path {
+        transition: all 300ms ease;
+        fill: transparent;
+        stroke: var(--highlight);
+        stroke-width: 3px;
+        stroke-dasharray: 0 0 0 1000;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      /* === Body contents === */
+
+      section[id] {
+        margin: 25px 0;
+        padding: 25px 0;
+      }
+
+      h1, h2 {
+        margin: 0;
+        padding: 0;
+      }
+
+      h2 {
+        padding-left: 10px;
+        border-left: 4px solid var(--highlight);
+        font-size: 200%;
+      }
+
+      h3 {
+        padding-left: 10px;
+        border-left: 4px solid var(--highlight);
+        font-size: 200%;
+      }
+
+      h1 span,
+      .subheading {
+        display: block;
+        color: #666;
+        font: 700 20px sans-serif;
+      }
+
+      article a {
+        color: #222;
+        text-decoration-color: var(--highlight);
+      }
+
+      article a:hover {
+        margin: -2px;
+        padding: 2px;
+        border: 0;
+        background: var(--highlight);
+      }
+
+      code {
+        margin: -2px;
+        padding: 2px;
+        background: rgba(0,0,0,.05);
+        font-family: 'PT Mono', monospace;
+        color: #333;
+      }
+
+      /* === Adjustments === */
+
+      /* Scroll all the way up even if the first section starts a couple hundred pixels down the page */
+      section:first-of-type {
+        margin-top: -300px;
+        padding-top: 350px;
+      }
+
+      article,
+      section:last-of-type,
+      section:last-of-type p:last-of-type {
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+    .typing-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3vw;
+      color: #086e7c;
+    }
+    .input-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 42px;
+      background-color: black;
+      margin-left: 8px;
+      animation: blink .6s linear infinite alternate;
+    }
+    #feature-text {
+      margin-left: 8px;
+    }
+
+    @keyframes blink {
+      0% {opacity: 1;}
+      40% {opacity: 1;}
+      60% {opacity: 0;}
+      100% {opacity: 0;}
+    }
+
+    </style>
+  </head>
+<!-- https://codepen.io/agrimsrud/pen/XWNLMeW -->
+
+  <body>
+
+
+        <nav>
+
+          <ul>
+            <li><a href="#about_me">About Me</a></li>
+            <li>
+              <a href="#experience">Selected Experiences</a>
+              <ul>
+                <li> <a href = "#work">Work </a></li>
+                <li><a href="#orgs">Organizations</a></li>
+              </ul>
+            </li>
+
+            <li><a href="#projects">Notable Projects</a></li>
+            <li><a href="#articles">My Articles</a></li>
+          </ul>
+
+          <svg xmlns="http://www.w3.org/2000/svg">
+            <path />
+          </svg>
+
+        </nav>
+
+
+      <div class = "my-content">
+        <div class = "header" style = "text-align: right;" >
+          <a target = "_blank" href = "https://www.twitter.com/cameronlow22"><i class="fa fa-twitter-square" aria-hidden="true" style = "font-size: 3vh;"></i></a>
+          <a target = "_blank" href = "https://www.linkedin.com/in/cameronelowry"><i class="fa fa-linkedin-square" aria-hidden="true" style = "font-size: 3vh;"></i></a>
+        </div>
+
+        <div class = "typing-container">
+          <span id = "sentence" class = "sentence"> I'm ...  </span>
+          <span id="feature-text"></span>
+          <span class = "input-cursor"></span>
+        </div>
+
+        <script>
+        const carouselText = [
+          {text: "A Data Scientist", color: "red"},
+          {text: "An Aspiring PM", color: "blue"},
+          {text: "A Student", color: "green"}
+
+          /*{text: "Instagram", color: "pink"},
+          {text: "Facebook", color: "blue"},
+          {text: "CharacTour", color: "teal"},
+          {text: "Where Good Grows", color: "green"},
+          {text: "US Department of Energy", color: "lightgreen"} */
+        ]
+
+        $( document ).ready(async function() {
+          carousel(carouselText, "#feature-text")
+        });
+
+        async function typeSentence(sentence, eleRef, delay = 100) {
+          const letters = sentence.split("");
+          let i = 0;
+          while(i < letters.length) {
+            await waitForMs(delay);
+            $(eleRef).append(letters[i]);
+            i++
+          }
+          return;
+        }
+
+        async function deleteSentence(eleRef) {
+          const sentence = $(eleRef).html();
+          const letters = sentence.split("");
+          let i = 0;
+          while(letters.length > 0) {
+            await waitForMs(100);
+            letters.pop();
+            $(eleRef).html(letters.join(""));
+          }
+        }
+
+        async function carousel(carouselList, eleRef) {
+            var i = 0;
+            while(true) {
+              updateFontColor(eleRef, carouselList[i].color)
+              await typeSentence(carouselList[i].text, eleRef);
+              await waitForMs(1500);
+              await deleteSentence(eleRef);
+              await waitForMs(500);
+              i++
+              if(i >= carouselList.length) {i = 0;}
+            }
+        }
+
+        function updateFontColor(eleRef, color) {
+          $(eleRef).css('color', color);
+        }
+
+        function waitForMs(ms) {
+          return new Promise(resolve => setTimeout(resolve, ms))
+        }
+
+        </script>
+
+
+        <br>
+        <br>
+        <div style = "text-align: center;">
+          <div class="subheading">Hey there!</div>
+          <h1>Cameron Lowry</h1>
+        </div>
+
+        <article id="top">
+
+
+          <section id="about_me">
+            <h2>About Me</h2>
+            <p>I'm a junior at the University of Chicago, studying Economics with
+              additional coursework in computer science, business, and behavioral science. I am passionate
+              about mobilizing tech for civic engagement and social good, from designing a non-profit
+              recommender system in the Chicago Booth Social New Venture Challenge to co-leading a civic
+              technology organization on campus. </p>
+
+          </section>
+
+          <section id="experience">
+            <h2>Selected Experiences</h2>
+          </section>
+          <section id = "work" style = "padding-left: 20px;">
+            <h3> Work </h3>
+              <ul>
+                <li style = "font-size: 190%;"> <p style = "font-size: 75%;">Data Science @ Facebook</p>
+                  <ul>
+                    <li style = "font-size: 70%;"> <p style = "font-size: 75%;">Incoming Data Science Intern | TBD | June 2021 - Sept 2021 </p> </li>
+                    <li style = "font-size: 70%;"> <p style = "font-size: 75%;">FBU Analytics Intern | Instagram Ecosystems | June 2020 - Aug 2020</p> </li>
+                  </ul>
+                </li>
+
+                <li style = "font-size: 190%;"> <p style = "font-size: 75%;">Course Assistant @ Chicago Booth (App Development) | Jan 2021 - Present</p>
+                </li>
+
+                <li style = "font-size: 200%;"> <p style = "font-size: 75%;"> Growth Marketing Consultant @ Polsky | Sept 2020 - Dec 2020 </p></li>
+
+                <li style = "font-size: 200%;"> <p style = "font-size: 75%;"> Data Scientist @ CharacTour | Oct 2019 - Mar 2020 </p></li>
+
+
+              </ul>
+          </section>
+
+          <section id = "orgs" style = "padding-left: 20px;">
+            <h3> Organizations </h3>
+            <ul>
+              <a target = "_blank" href = "https://www.uchicagotechteam.com"><li style = "font-size: 190%;"> <p style = "font-size: 75%;">TechTeam | Co-President | 2018 - Present</p></a>
+                <ul>
+                  <li style = "font-size: 70%;"> <p style = "font-size: 75%;">Civic technology consulting group building digital tools for non-profits and local governments</p> </li>
+                </ul>
+              </li>
+              <a target = "_blank" href = "https://uchicagoktp.com/"><li style = "font-size: 190%;"> <p style = "font-size: 75%;">Kappa Theta Pi | President & Co-Founder | 2020 - Present</p>  </a>
+                <ul>
+                  <li style = "font-size: 70%;"> <p style = "font-size: 75%;">Nation's first professional technology fraternity founded in 2012</p> </li>
+                </ul>
+              </li>
+
+              <a target = "_blank" href = "https://www.google.com"><li style = "font-size: 200%;"> <p style = "font-size: 75%;"> Women in Business | IT Director | 2019 - Present </p> </a>
+                <ul>
+                  <li style = "font-size: 70%;"> <p style = "font-size: 75%;">Pre-professional affinity network for women entering the workforce</p> </li>
+                </ul>
+              </li>
+
+            </ul>
+
+          </section>
+
+          <section id="projects">
+            <h2>Notable Projects</h2>
+            <ul>
+              <a target = "_blank" href = "http://www.ideathon.info/"> <li style = "font-size: 190%;"> <p style = "font-size: 75%;">TechTeam Ideathon | Feb 2021</p></a>
+                <ul>
+                  <li style = "font-size: 70%;"> <p style = "font-size: 75%;">Designed and built website for inaugural Ideathon </p> </li>
+                  <li style = "font-size: 70%;"> <code style = "font-size: 75%;">HTML, CSS, Javascript, Bootstrap </code> </li>
+                </ul>
+              </li>
+
+              <li style = "font-size: 190%;"><p style = "font-size: 75%;">Study Abroad App | School Project (App Development) | Nov 2020 - Dec 2020</p>
+                <ul>
+                  <li style = "font-size: 70%;"> <p style = "font-size: 75%;">Coded web app to store translations, country info, and currency exchange info</p> </li>
+                  <li style = "font-size: 70%;"> <code style = "font-size: 75%;">HTML, CSS, Bootstrap </code> </li>
+                </ul>
+              </li>
+
+              <a target = "_blank" href = "https://www.wheregoodgrows.org/"> <li style = "font-size: 190%;"><p style = "font-size: 75%;">Chicago Booth Social New Venture Challenge | Semifinalist, Sprout | Mar 2020 - May 2020</p> </a>
+                <ul>
+                  <li style = "font-size: 70%;"> <p style = "font-size: 75%;">Prototyped novel recommendation algorithmfor social-impact startup to match high-net-worth individuals
+                    with nonprofits in Chicago, increasing visibility and funding for under-detected nonprofits</p> </li>
+                  <li style = "font-size: 70%;"> <code style = "font-size: 75%;">Python, SQL, APIs </code> </li>
+                </ul>
+              </li>
+
+            </ul>
+
+          </section>
+
+          <section id="articles">
+            <h2>My Articles</h2>
+            <p>Coming soon!</p>
+          </section>
+
+
+
+        </article>
+
+
+        <script>
+        // === Vars ===
+
+          const elementsToObserve = document.querySelectorAll('section[id]'),
+    			visibleClass = 'visible',
+          nav = document.querySelector('nav'),
+          navPath = nav.querySelector('svg path'),
+          navListItems = [...nav.querySelectorAll('li')],
+          navItems = navListItems.map(listItem => {
+
+              const anchor = listItem.querySelector('a'),
+                    targetID = anchor && anchor.getAttribute('href').slice(1),
+                    target = document.getElementById(targetID);
+
+              return { listItem, anchor, target };
+
+            })
+            .filter(item => item.target);
+
+          // === Functions ===
+
+          function drawPath() {
+
+            let path = [],
+                pathIndent;
+
+            navItems.forEach((item, i) => {
+              const x = item.anchor.offsetLeft - 5,
+                    y = item.anchor.offsetTop,
+                    height = item.anchor.offsetHeight;
+
+              if(i === 0) {
+
+                path.push('M', x, y, 'L', x, y + height);
+                item.pathStart = 0;
+
+              } else {
+
+                if(pathIndent !== x)
+                  path.push('L', pathIndent, y);
+
+                path.push('L', x, y);
+
+                navPath.setAttribute('d', path.join(' '));
+                item.pathStart = navPath.getTotalLength() || 0;
+                path.push('L', x, y + height);
+              }
+
+              pathIndent = x;
+              navPath.setAttribute('d', path.join(' '));
+              item.pathEnd = navPath.getTotalLength();
+            });
+          }
+
+          function syncPath() {
+
+            const someElsAreVisible = () =>
+                    nav.querySelectorAll(`.${visibleClass}`).length > 0,
+                  thisElIsVisible = el =>
+                    el.classList.contains(visibleClass),
+                  pathLength = navPath.getTotalLength();
+
+            let pathStart = pathLength,
+                pathEnd = 0,
+                lastPathStart,
+                lastPathEnd;
+
+            navItems.forEach(item => {
+              if(thisElIsVisible(item.listItem)) {
+                pathStart = Math.min(item.pathStart, pathStart);
+                pathEnd = Math.max(item.pathEnd, pathEnd);
+              }
+            });
+
+            if(someElsAreVisible() && pathStart < pathEnd) {
+
+              if(pathStart !== lastPathStart || pathEnd !== lastPathEnd) {
+
+                const dashArray = `1 ${pathStart} ${pathEnd - pathStart} ${pathLength}`;
+
+                navPath.style.setProperty('stroke-dashoffset', '1');
+                navPath.style.setProperty('stroke-dasharray', dashArray);
+                navPath.style.setProperty('opacity', 1);
+          		}
+
+            } else {
+              navPath.style.setProperty('opacity', 0);
+            }
+
+            lastPathStart = pathStart;
+            lastPathEnd = pathEnd;
+          }
+
+          function markVisibleSection(observedEls) {
+
+            observedEls.forEach(observedEl => {
+
+              const id = observedEl.target.getAttribute('id'),
+                  anchor = document.querySelector(`nav li a[href="#${ id }"]`);
+
+              if(!anchor)
+                return false
+
+              const listItem = anchor.parentElement;
+
+              if (observedEl.isIntersecting) {
+                listItem.classList.add(visibleClass);
+              } else {
+                listItem.classList.remove(visibleClass);
+              }
+              syncPath();
+            });
+          }
+
+          // === Draw path and observe ===
+
+          drawPath();
+
+          const observer = new IntersectionObserver(markVisibleSection);
+          elementsToObserve.forEach(thisEl => observer.observe(thisEl));
+
+        </script>
+
+
+      </div>
+
+
+
+  </body>
+
+
+
+ </html>
