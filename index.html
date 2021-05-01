@@ -199,7 +199,28 @@
       60% {opacity: 0;}
       100% {opacity: 0;}
     }
+    .collapsible {
+      background-color: #086e7c;
+      color: white;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 15px;
+    }
 
+    .active, .collapsible:hover {
+      background-color: #086e7c;
+    }
+
+    .content {
+      padding: 0 18px;
+      display: none;
+      overflow: hidden;
+      background-color: #f1f1f1;
+    }
     </style>
   </head>
 <!-- https://codepen.io/agrimsrud/pen/XWNLMeW -->
@@ -214,11 +235,12 @@
             <li>
               <a href="#experience">Selected Experiences</a>
               <ul>
-                <li> <a href = "#work">Work </a></li>
+                <li><a href="#projects">Notable Projects</a></li>
+                <li><a href="#work">Work</a></li> 
               </ul>
             </li>
 
-            <li><a href="#projects">Notable Projects</a></li>
+            
             <li><a href="#articles">My Articles</a></li>
           </ul>
 
@@ -248,12 +270,6 @@
           {text: "A Data Scientist", color: "red"},
           {text: "An Aspiring PM", color: "blue"},
           {text: "A Student", color: "green"}
-
-          /*{text: "Instagram", color: "pink"},
-          {text: "Facebook", color: "blue"},
-          {text: "CharacTour", color: "teal"},
-          {text: "Where Good Grows", color: "green"},
-          {text: "US Department of Energy", color: "lightgreen"} */
         ]
 
         $( document ).ready(async function() {
@@ -308,6 +324,7 @@
 
         <br>
         <br>
+        
         <div style = "text-align: center;">
           <h1>Cameron Lowry</h1>
         </div>
@@ -332,7 +349,80 @@
           <section id="experience">
             <h2>Selected Experiences</h2>
           </section>
-          <section id = "work" style = "padding-left: 20px;">
+
+          <section id="projects" style = "padding-left: 20px;">
+            <h2>Notable Projects</h2>
+
+            <h3 style = "padding-top: 20px;">Data Science </h3>
+            <div style = "padding-bottom: 5vh;"> 
+                <a href="https://cameronlowdata.shinyapps.io/CoffeeControlChart/" target = "_blank"><h4>Coffee Quality Control Chart</h4></a>
+                <p>The first version of this project was building a quality control chart for the Marine Depot Maintenance Command during my senior year of high school.
+                I monitored cost abnormalities for marine equipment. Due to the confidentiality of this project, I updated it with data on prices for Arabica and 
+                Robusta coffee beans. In the demo, I created tabbed web application using <code> R Shiny </code> - the first tab ("Updated QCC") has an improved UI and 
+                automatically updates based on input where as the second tab ("Original QCC") closely mirrors my version 1 from high school. </p>
+                  <button type="button" class="collapsible">Coffee QCC Demo</button>
+                  <div class="content">
+                    <iframe src="https://cameronlowdata.shinyapps.io/CoffeeControlChart/" name="iframe_a" height="500px" width="100%" title="Iframe Example"></iframe>
+                  </div>
+            </div>
+
+            <div style = "padding-bottom: 5vh;"> 
+              <a href="https://cameronlowdata.shinyapps.io/IrisDimension/" target = "_blank"><h4>Multi-Dimensional Analysis of Iris with PCA and t-SNE</h4></a>
+              <p>For working with multi-dimensional user data, I used dimension-reduction techniques like PCA (principal component analysis) and t-SNE (t-distributed 
+              stochastic neighborhood embedding) to better visualize the data on a two-dimensional plane. The original project with
+              CharacTour involved confidential datasets, so I recreated this analysis using the open-source Iris dataset in <code>R</code> </p>
+                <button type="button" class="collapsible">Iris PCA and t-SNE Demo</button>
+                <div class="content" style = "padding-bottom: 100px;">
+                  <iframe src="https://cameronlowdata.shinyapps.io/IrisDimension/" name="iframe_a" height="500px" width="100%" title="Iframe Example"></iframe>
+                </div>
+            </div>
+            
+            <div style = "padding-bottom: 5vh;"> 
+              <a href="https://cameronlowdata.shinyapps.io/DSApplication/" target = "_blank"><h4>DBSCAN with Iris</h4></a>
+              <p>Another project I worked on for CharacTour was implementing DBSCAN (density-based clustering of applications with noise) to derive user insights. While the data is
+              also confidential, I replicated it with the Iris dataset in <code>R</code> Through this unsupervised machine learning tactic, I was able to procure useful
+              results to better understand complex user behavior.</p>
+                <button type="button" class="collapsible">Iris DBSCAN Demo</button>
+                <div class="content" style = "padding-bottom: 100px;">
+                  <iframe src="https://cameronlowdata.shinyapps.io/DSApplication/" name="iframe_a" height="500px" width="100%" title="Iframe Example"></iframe>
+                </div>
+            </div>
+
+            <hr>
+
+             <h3>Web and App Development Development </h3>
+             <div style = "padding-bottom: 5vh;"> 
+              <a href="https://uctechteam.github.io/techteamideathon2021/about.html" target = "_blank"><h4>TechTeam Ideathon Landing Page</h4></a>
+              <p>In Spring 2021, <a href = "https://www.uchicagotechteam.com/" target = "_blank">TechTeam</a> launched its inaugural virtual Ideathon. As part of a collaborative effort,
+              we designed and built this website using <code>HTML, CSS, Javascript, and Bootstrap</code>.</p>
+                <button type="button" class="collapsible">Ideathon Website</button>
+                <div class="content" style = "padding-bottom: 100px;">
+                  <iframe src="https://uctechteam.github.io/techteamideathon2021/about.html" name="iframe_a" height="500px" width="100%" title="Iframe Example"></iframe>
+                </div>
+            </div>
+
+            <div style = "padding-bottom: 5vh;"> 
+              <h4>Art Recommender System</h4>
+              <p>I'm currently building a collaborative filtering recommender system in <code>Ruby on Rails</code> to personalize recomendations for artwork using the
+              Art Institute of Chicago's API.</p>
+             <button type="button" class="collapsible">Art Recommender (demo coming soon)</button>
+                <div class="content" style = "padding-bottom: 100px;">
+                </div>
+            </div>
+
+            <div style = "padding-bottom: 5vh;"> 
+              <a target = "_blank" href = "https://www.wheregoodgrows.org/"><h4>Chicago Booth Social New Venture Challenge 2020 | Semifinalist, Sprout</h4></a>
+              <p>During the semi-finals of the Chicago Booth Social New Venture Challenge, I developed one of the first comprehensive database of all non-profits in the 
+              Chicagoland area using <code>Python, SQL, and APIs</code>.
+              
+              I also prototyped novel recommendation algorithm in <code>Python</code> for social-impact startup to match high-net-worth individuals
+                    with nonprofits in Chicago, increasing visibility and funding for under-detected nonprofits.</p>
+
+            </div>
+
+          </section>
+
+           <section id = "work" style = "padding-left: 20px;">
             <h2> Work </h2>
               <ul >
                 <li> <p>Data Science @ Facebook</p></li>
@@ -348,36 +438,6 @@
               </ul>
           </section>
 
-          <section id="projects" style = "padding-left: 20px;">
-            <h2>Notable Projects</h2>
-            <ul>
-             <iframe src="https://uctechteam.github.io/techteamideathon2021/about.html" name="iframe_a" height="500px" width="100%" title="Iframe Example"></iframe>
-              <a target = "_blank" href = "http://www.ideathon.info/"> <li> <p>TechTeam Ideathon </p></a>
-                <ul>
-                  <li> <p>Designed and built website for inaugural Ideathon </p> </li>
-                  <li> <code>HTML, CSS, Javascript, Bootstrap </code> </li>
-                </ul>
-              </li>
-
-              <li><p>Study Abroad App | School Project (App Development) </p>
-                <ul>
-                  <li> <p>Coded web app to store translations, country info, and currency exchange info</p> </li>
-                  <li> <code>HTML, CSS, Bootstrap </code> </li>
-                </ul>
-              </li>
-
-              <a target = "_blank" href = "https://www.wheregoodgrows.org/"> <li><p>Chicago Booth Social New Venture Challenge | Semifinalist, Sprout </p> </a>
-                <ul>
-                  <li> <p>Prototyped novel recommendation algorithmfor social-impact startup to match high-net-worth individuals
-                    with nonprofits in Chicago, increasing visibility and funding for under-detected nonprofits</p> </li>
-                  <li> <code>Python, SQL, APIs </code> </li>
-                </ul>
-              </li>
-
-            </ul>
-
-          </section>
-
           <section id="articles">
             <h2>My Articles</h2>
            <p style = "padding-top: 10px;"><a target = "_blank" href = "https://cameronelow.github.io/til/" style = "text-decoration: none;">App Dev 2 Learning Journal</a></p>
@@ -387,6 +447,23 @@
 
 
         </article>
+
+        <script>
+          var coll = document.getElementsByClassName("collapsible");
+          var i;
+
+          for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+              this.classList.toggle("active");
+              var content = this.nextElementSibling;
+              if (content.style.display === "block") {
+                content.style.display = "none";
+              } else {
+                content.style.display = "block";
+              }
+            });
+          }
+          </script>
 
 
         <script>
