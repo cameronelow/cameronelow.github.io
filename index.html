@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Cameron Lowry">
+  <meta name="description" content="Cameron Lowry — Data Scientist at Google working on Multimodal Search. Builder, curious person.">
+  <title>Cameron Lowry</title>
+  <link rel="icon" type="image/png" href="favicon-32x32.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <style>
+    /* =============================================
+       CSS VARIABLES & RESET
+    ============================================= */
+    :root {
+      --rust:     #3A6B35;
+      --rust-lt:  #4F8C49;
+      --sand:     #E8DCCB;
+      --sand-lt:  #F5EFE4;
+      --olive:    #5C6344;
+      --olive-lt: #7A8260;
+      --ink:      #1E1A15;
+      --muted:    #6B5F4E;
+      --paper:    #FAF7F2;
+      --white:    #FFFFFF;
+
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'DM Sans', sans-serif;
+      --font-mono:    'DM Mono', monospace;
+
+      --nav-w: 220px;
+      --pad:   clamp(24px, 5vw, 64px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* =============================================
+       LAYOUT
+    ============================================= */
+    .site-wrapper {
+      display: grid;
+      grid-template-columns: var(--nav-w) 1fr;
+      min-height: 100vh;
+    }
+
+    /* =============================================
+       SIDEBAR NAV
+    ============================================= */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 48px 32px;
+      background: var(--ink);
+      color: var(--sand);
+      overflow: hidden;
+    }
+
+    /* Subtle texture overlay */
+    .sidebar::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .sidebar-name {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--sand-lt);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-title {
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: var(--olive-lt);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 48px;
+    }
+
+    .nav-links {
+      list-style: none;
+      flex: 1;
+    }
+
+    .nav-links li {
+      margin-bottom: 4px;
+    }
+
+    .nav-links a {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--muted);
+      padding: 6px 0;
+      transition: color 0.2s, padding-left 0.2s;
+      position: relative;
+    }
+
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      left: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--rust);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--sand-lt);
+      padding-left: 12px;
+    }
+
+    .nav-links a:hover::before,
+    .nav-links a.active::before {
+      opacity: 1;
+    }
+
+    .nav-links .nav-sub {
+      padding-left: 16px;
+    }
+
+    .nav-links .nav-sub a {
+      font-size: 0.78rem;
+      color: #4a4035;
+    }
+
+    .nav-links .nav-sub a:hover,
+    .nav-links .nav-sub a.active {
+      color: var(--sand);
+      padding-left: 20px;
+    }
+
+    /* Social icons */
+    .sidebar-socials {
+      display: flex;
+      gap: 16px;
+      margin-top: auto;
+      padding-top: 32px;
+    }
+
+    .sidebar-socials a {
+      color: var(--muted);
+      transition: color 0.2s;
+      font-size: 0.85rem;
+    }
+
+    .sidebar-socials a:hover { color: var(--rust-lt); }
+
+    /* SVG icons inline */
+    .icon {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    /* =============================================
+       MAIN CONTENT
+    ============================================= */
+    .main-content {
+      padding: 0 var(--pad) var(--pad);
+      max-width: 860px;
+    }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    .hero {
+      padding: 80px 0 64px;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--rust);
+      margin-bottom: 20px;
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      color: var(--rust);
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .hero-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--olive);
+      background: rgba(92, 99, 68, 0.1);
+      border: 1px solid rgba(92, 99, 68, 0.2);
+      border-radius: 2px;
+      padding: 4px 10px;
+      letter-spacing: 0.04em;
+    }
+
+    /* Decorative rule */
+    .section-rule {
+      width: 48px;
+      height: 2px;
+      background: var(--rust);
+      margin-bottom: 40px;
+    }
+
+    /* =============================================
+       SECTION HEADERS
+    ============================================= */
+    section {
+      padding: 64px 0;
+      border-top: 1px solid rgba(30, 26, 21, 0.08);
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--rust);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 40px;
+      line-height: 1.1;
+    }
+
+    /* =============================================
+       ABOUT
+    ============================================= */
+    .about-body {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.9;
+      max-width: 620px;
+    }
+
+    .about-body p + p {
+      margin-top: 20px;
+    }
+
+    /* =============================================
+       SKILLS GRID
+    ============================================= */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .skill-item {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--olive);
+      background: var(--sand-lt);
+      border: 1px solid rgba(92, 99, 68, 0.15);
+      border-radius: 3px;
+      padding: 10px 14px;
+      letter-spacing: 0.02em;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .skill-item:hover {
+      background: var(--olive);
+      color: var(--sand-lt);
+    }
+
+    /* =============================================
+       EXPERIENCE
+    ============================================= */
+    .experience-list {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 24px;
+    }
+
+    .exp-period {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      padding-top: 4px;
+      letter-spacing: 0.04em;
+    }
+
+    .exp-company {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    .exp-role {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--rust);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+
+    .exp-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* =============================================
+       PROJECTS
+    ============================================= */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--white);
+      border: 1px solid rgba(30, 26, 21, 0.08);
+      border-radius: 4px;
+      padding: 28px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--rust);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(30, 26, 21, 0.1);
+    }
+
+    .project-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .project-card.featured {
+      border-color: rgba(181, 69, 27, 0.2);
+      background: linear-gradient(135deg, #fff 0%, #fdf8f2 100%);
+    }
+
+    .project-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--rust);
+      background: rgba(181, 69, 27, 0.08);
+      border: 1px solid rgba(181, 69, 27, 0.2);
+      border-radius: 2px;
+      padding: 2px 8px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .project-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .tech-tag {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--olive-lt);
+      background: rgba(92, 99, 68, 0.08);
+      border-radius: 2px;
+      padding: 2px 8px;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 14px;
+    }
+
+    .project-link {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--rust);
+      border-bottom: 1px solid rgba(181, 69, 27, 0.3);
+      transition: border-color 0.15s;
+    }
+
+    .project-link:hover {
+      border-color: var(--rust);
+    }
+
+    /* Prototypes section */
+    .prototypes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 40px;
+    }
+
+    .proto-card {
+      border-radius: 4px;
+      cursor: pointer;
+      perspective: 1000px;
+      height: 160px;
+    }
+
+    .proto-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      -webkit-transform-style: preserve-3d;
+      transform-style: preserve-3d;
+      -webkit-transition: -webkit-transform 0.6s ease;
+      transition: transform 0.6s ease;
+    }
+
+    .proto-card.flipped .proto-card-inner {
+      -webkit-transform: rotateY(180deg);
+      transform: rotateY(180deg);
+    }
+
+    .proto-card-front,
+    .proto-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 4px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+    }
+
+    .proto-card-front {
+      background: var(--sand-lt);
+      border: 1px solid rgba(30, 26, 21, 0.06);
+    }
+
+    .proto-card-back {
+      background: var(--ink);
+      -webkit-transform: rotateY(180deg);
+      transform: rotateY(180deg);
+    }
+
+    .proto-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .proto-flip-hint {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .proto-back-desc {
+      font-size: 0.78rem;
+      line-height: 1.65;
+      color: var(--sand);
+      flex: 1;
+    }
+
+    .proto-back-link {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--rust-lt);
+      display: inline-block;
+      margin-top: 10px;
+      border-bottom: 1px solid rgba(79, 140, 73, 0.35);
+      transition: border-color 0.15s;
+    }
+
+    .proto-back-link:hover {
+      border-color: var(--rust-lt);
+    }
+
+    .proto-link {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--rust-lt);
+    }
+
+    /* =============================================
+       PROJECT & PROTOTYPE THUMBNAILS
+    ============================================= */
+    .project-thumb,
+    .proto-thumb {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--sand-lt);
+      border: 1px dashed rgba(30, 26, 21, 0.15);
+      border-radius: 3px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .project-thumb { margin-bottom: 18px; }
+    .proto-thumb   { margin-bottom: 10px; }
+
+    .project-thumb::after,
+    .proto-thumb::after {
+      content: 'screenshot';
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--muted);
+      opacity: 0.35;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .project-thumb img,
+    .proto-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .project-thumb:has(img)::after,
+    .proto-thumb:has(img)::after { display: none; }
+
+    /* =============================================
+       WRITING
+    ============================================= */
+    .writing-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .writing-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(30, 26, 21, 0.07);
+      transition: padding-left 0.2s;
+    }
+
+    .writing-item:hover {
+      padding-left: 8px;
+    }
+
+    .writing-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .writing-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .writing-arrow {
+      color: var(--rust);
+      font-size: 1.1rem;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .writing-item:hover .writing-arrow {
+      opacity: 1;
+    }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    footer {
+      padding: 48px 0 64px;
+      border-top: 1px solid rgba(30, 26, 21, 0.08);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* =============================================
+       ANIMATIONS
+    ============================================= */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow  { animation: fadeUp 0.5s ease both; animation-delay: 0.1s; }
+    .hero-name     { animation: fadeUp 0.5s ease both; animation-delay: 0.2s; }
+    .hero-desc     { animation: fadeUp 0.5s ease both; animation-delay: 0.3s; }
+    .hero-tags     { animation: fadeUp 0.5s ease both; animation-delay: 0.4s; }
+
+    /* =============================================
+       HAMBURGER TOGGLE
+    ============================================= */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px 4px;
+      color: var(--sand-lt);
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 1px;
+      transition: transform 0.22s ease, opacity 0.22s ease;
+    }
+
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* =============================================
+       TABLET (769px – 1024px)
+    ============================================= */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      :root { --nav-w: 190px; }
+      .sidebar { padding: 40px 24px; }
+    }
+
+    /* =============================================
+       MOBILE
+    ============================================= */
+    @media (max-width: 768px) {
+      .site-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        height: auto;
+        padding: 16px 20px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0;
+      }
+
+      .sidebar-name {
+        flex: 1;
+        font-size: 1.1rem;
+        margin-bottom: 0;
+        line-height: 1.2;
+      }
+
+      .sidebar-title { display: none; }
+
+      .sidebar nav {
+        width: 100%;
+        order: 10;
+      }
+
+      .nav-toggle {
+        display: flex;
+        order: 8;
+        margin-left: 12px;
+      }
+
+      .nav-links {
+        display: none;
+        padding: 16px 0 4px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        margin-top: 12px;
+      }
+
+      .nav-links.open { display: block; }
+
+      .sidebar-socials {
+        margin-top: 0;
+        padding-top: 0;
+        order: 7;
+      }
+
+      .main-content { padding: 0 20px 48px; }
+
+      .hero { padding: 48px 0 40px; }
+
+      section { padding: 48px 0; }
+
+      .exp-item { grid-template-columns: 1fr; gap: 4px; }
+
+      .projects-grid { grid-template-columns: 1fr; }
+
+      .prototypes-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+
+      .skills-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+
+      .writing-title { font-size: 0.95rem; }
+
+      .section-title { margin-bottom: 28px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="site-wrapper">
+
+    <!-- =============================================
+         SIDEBAR
+    ============================================= -->
+    <aside class="sidebar">
+      <div class="sidebar-name">Cameron<br>Lowry</div>
+      <!-- EDIT: Update title if role changes -->
+      <div class="sidebar-title">Product & Data · Google</div>
+
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li>
+            <a href="#projects">Projects</a>
+            <ul class="nav-links nav-sub">
+              <li><a href="#featured-projects">Featured</a></li>
+              <li><a href="#prototypes">Prototypes</a></li>
+            </ul>
+          </li>
+          <li><a href="#writing">Writing</a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-socials">
+        <!-- GitHub -->
+        <a href="https://github.com/cameronelow" target="_blank" title="GitHub">
+          <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+        </a>
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/cameronelowry" target="_blank" title="LinkedIn">
+          <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+        </a>
+        <!-- Email -->
+        <a href="mailto:cameronelowry@gmail.com" title="Email">
+          <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+        </a>
+      </div>
+    </aside>
+
+    <!-- =============================================
+         MAIN
+    ============================================= -->
+    <main class="main-content">
+      <!-- =============================================
+           ABOUT
+      ============================================= -->
+      <section id="about">
+        <div class="section-label">About</div>
+        <h2 class="section-title">About me</h2>
+
+        <div class="about-body">
+          <p>
+            I'm a product data scientist at Google working on Multimodal Search and a graduate student in AI at the University of Texas at Austin. I sit at the intersection of technical depth and product thinking. 
+          </p>
+          <p>
+            Most of my career has been about turning messy, ambiguous problems into clear product direction. At Google, that meant understanding emerging multimodal search behaviors, translating model performance gaps into roadmap priorities, and building agents and LLM-powered tools to automate routine analyses. At Meta's Reality Labs, I drove product investment decisions for VR social experiences on Quest headsets, advocating for users navigating genuinely novel interaction paradigms. In both places, I've been most energized when the product-market fit isn't obvious yet.
+          </p>
+          <p>
+            I studied Economics at the University of Chicago, where I got obsessed with how data and human behavior intersect, a thread that's run through everything since.
+          </p>
+          <p>
+            Outside work, I'm building apps like a classical music discovery app or digital commonplace book, reading at book club, learning aerial silks sequences, and occasionally building something small and impractical.
+          </p>
+        </div>
+      </section>
+
+      <!-- =============================================
+           EXPERIENCE
+      ============================================= -->
+      <section id="experience">
+        <div class="section-label">Experience</div>
+        <h2 class="section-title">Where I've worked</h2>
+
+        <div class="experience-list">
+          <div class="exp-item">
+            <div class="exp-period">Dec 2024 –<br>Present</div>
+            <div>
+              <div class="exp-company">Google</div>
+              <div class="exp-role">Data Scientist · Multimodal Search</div>
+              <div class="exp-desc">
+                Building toward the future of search, one model behavior at a time.
+              </div>
+            </div>
+          </div>
+
+          <div class="exp-item">
+            <div class="exp-period">Jan 2022 –<br>Sep 2024</div>
+            <div>
+              <div class="exp-company">Meta</div>
+              <div class="exp-role">Product Data Scientist · Social VR</div>
+              <div class="exp-desc">
+                Shaped how people connect in VR before anyone really knew what that meant.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =============================================
+           PROJECTS — FEATURED
+      ============================================= -->
+      <section id="projects">
+        <div class="section-label">Projects</div>
+        <h2 class="section-title">What I've built</h2>
+
+        <div id="featured-projects" class="projects-grid">
+
+          <!-- =============================================
+               PROJECT: Classical Vibe
+          ============================================= -->
+          <div class="project-card featured">
+            <div class="project-thumb">
+              <img src="images/classical-vibe.jpg" alt="Classical Vibe screenshot">
+            </div>
+            <div class="project-badge">Featured · Live</div>
+            <div class="project-name">Classical Vibe</div>
+            <div class="project-desc">
+              A classical music discovery app that recommends pieces by mood and intent. Describe how you're feeling and it finds the right piece, from Bach to Shostakovich.
+            </div>
+            <div class="project-tech">
+              <span class="tech-tag">Next.js</span>
+              <span class="tech-tag">FastAPI</span>
+              <span class="tech-tag">Sentence Transformers</span>
+              <span class="tech-tag">Semantic Search</span>
+              <span class="tech-tag">Typescript</span>
+              <span class="tech-tag">LLM-Enriched Metadata</span>
+              <span class="tech-tag">Human-in-the-Loop Feedback</span>
+              <span class="tech-tag">Supabase</span>
+            </div>
+            <div class="project-links">
+              <a href="https://classicalvibe.vercel.app/" target="_blank" class="project-link">live app ↗</a>
+              <a href="https://github.com/cameronelow/classical_music_recommender" target="_blank" class="project-link">github ↗</a>
+              <a href = "https://substack.com/home/post/p-185652577" target="_blank" class="project-link">methodology + motivation ↗</a>
+            </div>
+          </div>
+
+          <!-- =============================================
+               PROJECT: Asterism
+          ============================================= -->
+          <div class="project-card featured">
+            <div class="project-thumb">
+              <img src="images/asterism.jpg" alt="Asterism screenshot">
+            </div>
+            <div class="project-badge">Featured · In Progress</div>
+            <div class="project-name">Asterism</div>
+            <div class="project-desc">
+              A digital commonplace book that helps readers find thematic connections across pieces of knowledge and inspiration they save.
+            </div>
+            <div class="project-tech">
+              <span class="tech-tag">LLMs</span>
+              <span class="tech-tag">Embeddings</span>
+              <span class="tech-tag">pgvector</span>
+              <span class="tech-tag">RAG</span>
+              <span class="tech-tag">Typescript</span>
+              <span class="tech-tag">Supabase</span>
+              <span class="tech-tag">Semantic Search</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/cameronelow/asterism" target="_blank" class="project-link">github ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- =============================================
+             PROTOTYPES
+        ============================================= -->
+        <h3 id="prototypes" style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; color: var(--muted); margin-top: 56px; margin-bottom: 8px; letter-spacing: -0.01em;">
+          Prototypes
+        </h3>
+        <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 4px;">Side projects and prototypes, built to learn or just for fun.</p>
+
+        <div class="prototypes-grid">
+
+          <div class="proto-card">
+            <div class="proto-card-inner">
+              <div class="proto-card-front">
+                <div class="proto-name">Academic Stress Dashboard</div>
+                <div class="proto-flip-hint">click to flip</div>
+              </div>
+              <div class="proto-card-back">
+                <div class="proto-back-desc">A data visualization dashboard mapping academic workload and stress patterns.</div>
+                <a href="https://github.com/cameronelow/academic-stress-dashboard" target="_blank" class="proto-back-link">view on github ↗</a>
+                <a href="https://academic-stress-dashboard.streamlit.app/" target="_blank" class="proto-back-link">view live app ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="proto-card">
+            <div class="proto-card-inner">
+              <div class="proto-card-front">
+                <div class="proto-name">Block Jump Game</div>
+                <div class="proto-flip-hint">click to flip</div>
+              </div>
+              <div class="proto-card-back">
+                <div class="proto-back-desc">A browser-based platformer where a block character dodges incoming obstacles.</div>
+                <a href="https://github.com/cameronelow/block_jump_game" target="_blank" class="proto-back-link">view on github ↗</a>
+                <a href="https://blockgame.bolt.host/" target="_blank" class="proto-back-link">view live game ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="proto-card">
+            <div class="proto-card-inner">
+              <div class="proto-card-front">
+                <div class="proto-name">Retro Solitaire '95</div>
+                <div class="proto-flip-hint">click to flip</div>
+              </div>
+              <div class="proto-card-back">
+                <div class="proto-back-desc">A fully playable Solitaire card game with a nostalgic Windows 95 aesthetic, built for the love of old UI and browser games.</div>
+                <a href="https://github.com/cameronelow/retro_solitaire_95" target="_blank" class="proto-back-link">view on github ↗</a>
+                <a href="https://retro-solitaire-95-121829239211.us-central1.run.app/" target="_blank" class="proto-back-link">play live game ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="proto-card">
+            <div class="proto-card-inner">
+              <div class="proto-card-front">
+                <div class="proto-name">Circadian: Sleep Reminder</div>
+                <div class="proto-flip-hint">click to flip</div>
+              </div>
+              <div class="proto-card-back">
+                <div class="proto-back-desc">A lightweight tool that nudges you when it's time to wind down to help build more consistent sleep habits.</div>
+                <a href="https://github.com/cameronelow/sleep-reminder" target="_blank" class="proto-back-link">view on github ↗</a>
+                <a href="https://circadian-rhythm.vercel.app/" target="_blank" class="proto-back-link">view live app ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="proto-card">
+            <div class="proto-card-inner">
+              <div class="proto-card-front">
+                <div class="proto-name">Numbrix</div>
+                <div class="proto-flip-hint">click to flip</div>
+              </div>
+              <div class="proto-card-back">
+                <div class="proto-back-desc">A logic puzzle game where you fill a grid by connecting numbers in sequential order, inspired by the classic newspaper puzzle.</div>
+                <a href="https://github.com/cameronelow/numbrix-master" target="_blank" class="proto-back-link">view on github ↗</a>
+                <a href="https://numbrix-master-121829239211.us-central1.run.app/" target="_blank" class="proto-back-link">play live game ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="proto-card">
+            <div class="proto-card-inner">
+              <div class="proto-card-front">
+                <div class="proto-name">Focus Flow</div>
+                <div class="proto-flip-hint">click to flip</div>
+              </div>
+              <div class="proto-card-back">
+                <div class="proto-back-desc">A Pomodoro-style timer that reminds far-sighted people to rest their eyes.</div>
+                <a href="https://github.com/cameronelow/focus_flow" target="_blank" class="proto-back-link">view on github ↗</a>
+                <a href="https://focusflow-121829239211.us-west1.run.app/" target="_blank" class="proto-back-link">view live app ↗</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =============================================
+           WRITING
+      ============================================= -->
+      <section id="writing">
+        <div class="section-label">Writing</div>
+        <h2 class="section-title">What I've written</h2>
+
+        <div class="writing-list">
+          <a href="https://cameronlowry.substack.com/p/creative-thinking-is-commonplace" target="_blank" class="writing-item">
+            <div>
+              <div class="writing-title">Creative Thinking is Commonplace</div>
+              <div class="writing-meta">Substack · Apr 2026</div>
+            </div>
+            <div class="writing-arrow">→</div>
+          </a>
+
+            <a href="https://substack.com/home/post/p-185652577" target="_blank" class="writing-item">
+            <div>
+              <div class="writing-title">Why Classical Music Breaks Recommenders (And What I Built Instead)</div>
+              <div class="writing-meta">Substack · Jan 2026</div>
+            </div>
+            <div class="writing-arrow">→</div>
+          </a>
+          
+            <a href="https://ojs.stanford.edu/ojs/index.php/intersect/article/view/2046" target="_blank" class="writing-item">
+            <div>
+              <div class="writing-title">When Moore's Law Killed Chess: How Strategy Games Redefined Intelligence in AI</div>
+              <div class="writing-meta">Intersect: The Stanford Journal of Science, Technology, and Society · Dec 2021</div>
+            </div>
+            <div class="writing-arrow">→</div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- =============================================
+       ACTIVE NAV HIGHLIGHT (scroll spy)
+  ============================================= -->
+  <script>
+    // Mobile hamburger toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-links');
+
+    navToggle.addEventListener('click', () => {
+      const isOpen = navMenu.classList.toggle('open');
+      navToggle.classList.toggle('open', isOpen);
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+
+    navMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('open');
+        navToggle.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    const sections = document.querySelectorAll('section[id], div.hero');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id || 'about';
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            const href = link.getAttribute('href').replace('#', '');
+            if (href === id || (id === '' && href === 'about')) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+
+    // Prototype card flip
+    document.querySelectorAll('.proto-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.proto-back-link')) return;
+        const inner = card.querySelector('.proto-card-inner');
+        const isFlipped = card.classList.toggle('flipped');
+        inner.style.transform = isFlipped ? 'rotateY(180deg)' : '';
+        inner.style.webkitTransform = isFlipped ? 'rotateY(180deg)' : '';
+      });
+    });
+  </script>
+
+</body>
+</html>
