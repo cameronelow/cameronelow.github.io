@@ -867,7 +867,7 @@
 
         <div class="about-body">
           <p>
-            I'm a product data scientist at Google working on Multimodal Search and a graduate student in AI at the University of Texas at Austin. I sit at the intersection of technical depth and product thinking. 
+            I'm a product data scientist at Google working on Multimodal Search and a graduate student in AI at the University of Texas at Austin. I work on AI product problems where user behavior and model behavior are both messy, and I’m usually focused on making those patterns measurable enough to guide product decisions.
           </p>
           <p>
             Most of my career has been about turning messy, ambiguous problems into clear product direction. At Google, that meant understanding emerging multimodal search behaviors, translating model performance gaps into roadmap priorities, and building agents and LLM-powered tools to automate routine analyses. At Meta's Reality Labs, I drove product investment decisions for VR social experiences on Quest headsets, advocating for users navigating genuinely novel interaction paradigms. In both places, I've been most energized when the product-market fit isn't obvious yet.
@@ -933,7 +933,7 @@
             <div class="project-badge">Featured · Live</div>
             <div class="project-name">Classical Vibe</div>
             <div class="project-desc">
-              A classical music discovery app that recommends pieces by mood and intent. Describe how you're feeling and it finds the right piece, from Bach to Shostakovich.
+              Classical music exposes a core failure mode in recommender systems. When metadata is sparse and user intent is vague, relevance signals collapse. I designed this from scratch, mapping free-form mood inputs through sentence transformer embeddings against a catalog whose sparse metadata I enriched offline with an LLM, then layering diversity and coverage metrics on top to prevent recommendation concentration. The goal was a system that balances relevance against exploration in a long-tail catalog where standard approaches break down.
             </div>
             <div class="project-tech">
               <span class="tech-tag">Next.js</span>
@@ -962,7 +962,8 @@
             <div class="project-badge">Featured · In Progress</div>
             <div class="project-name">Asterism</div>
             <div class="project-desc">
-              A digital commonplace book that helps readers find thematic connections across pieces of knowledge and inspiration they save.
+              Asterism is a digital commonplace book that surfaces non-obvious thematic connections across notes, articles, images, and voice recordings. It embeds saved items, clusters them by cosine similarity using pgvector, then uses an LLM to name each group and describe what ties it together. The system has two modes: one that organises by semantic similarity, and one that rewards serendipity.
+The hardest part has been eval design. The two modes have conflicting objectives, so there's no single ground truth. A cluster that scores well on semantic cohesion is often a failure in the serendipitous mode. Building a scoring framework that rewards the right tradeoff depending on the objective required thinking carefully about what makes a recommended connection worth a user's attention.
             </div>
             <div class="project-tech">
               <span class="tech-tag">LLMs</span>
